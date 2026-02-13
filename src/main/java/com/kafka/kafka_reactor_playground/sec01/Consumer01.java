@@ -1,4 +1,4 @@
-package com.kafka.kafka_reactor_playground;
+package com.kafka.kafka_reactor_playground.sec01;
 
 import java.util.List;
 import java.util.Map;
