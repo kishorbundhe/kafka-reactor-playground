@@ -27,7 +27,8 @@ public class Consumer01 {
 
         KafkaReceiver.create(options)
                 .receive()
-                .doOnNext(r -> log.info("Received message: {} with key = {}", r.value(), r.key()))
+                .doOnNext(r -> log.info("Received message: {} with key = {} ", r.value(), r.key()))
+                .doOnNext(r -> r.headers().forEach(h -> log.info("Header key: {}, value: {}", h.key(), new String(h.value()))))
                 .doOnNext(r->r.receiverOffset().acknowledge())
                 .subscribe();
 

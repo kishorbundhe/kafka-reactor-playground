@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.internals.RecordHeader;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import reactor.core.publisher.Flux;
@@ -18,18 +19,28 @@ public class kafkaProducer {
         Map<String, Object> config = Map.of(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092",
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        SenderOptions<String, String> options = SenderOptions.create(config);
 
-        var flux = Flux.range(0, 100)
-                .map(i -> new ProducerRecord<>("topic-1", "key-" + i, "value-" + i))
+        var  options = SenderOptions.<String, String>create(config).maxInFlight(10000);
+
+        var flux = Flux.range(0, 10)
+                .map(i -> {
+                    var headers = new RecordHeader("client_id", "   producer-1".getBytes());
+                    var headers1 = new RecordHeader("request-type", "   producer-1-type".getBytes());
+                    var record = new ProducerRecord<>("topic-1", "key-" + i, "value-" + i);
+                    record.headers().add(headers);
+                    record.headers().add(headers1);
+                    return record;
+                })
                 .map(i -> SenderRecord.create(i, i.key()));
 
-        var sender = KafkaSender
-                .create(options);
-        sender
-                .send(flux)
+        final long now = System.currentTimeMillis();
+        var sender = KafkaSender.create(options);
+        sender.send(flux)
                 .doOnNext(i -> log.info("Message sent: {}", i.correlationMetadata()))
-                .doOnComplete(sender::close)
+                .doOnComplete(() -> {
+                    log.info("All messages sent in {} ms", System.currentTimeMillis() - now);
+                    sender.close();
+                })
                 .subscribe();
 
     }
