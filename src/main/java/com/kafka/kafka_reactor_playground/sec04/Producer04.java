@@ -1,4 +1,4 @@
-package com.kafka.kafka_reactor_playground.sec03;
+package com.kafka.kafka_reactor_playground.sec04;
 
 import java.time.Duration;
 import java.util.Map;
@@ -12,8 +12,8 @@ import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
 import reactor.kafka.sender.SenderRecord;
 
-public class kafkaProducer {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(kafkaProducer.class);
+public class Producer04 {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Producer04.class);
 
     public static void main(String[] args) {
         Map<String, Object> config = Map.of(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092",
