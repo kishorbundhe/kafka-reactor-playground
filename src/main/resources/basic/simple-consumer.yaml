@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    function:
+      definition: consumer1;consumer2
+    stream:
+      bindings:
+        consumer1-in-0:
+          destination: demo-topic # multiple topics can be specified as comma separated values
+          group: demo-group
+        consumer2-in-0:
+          destination: topic-1 # multiple topics can be specified as comma separated values
+          group: demo-group
+      kafka:
+        binder:
+          brokers: localhost:9092
+          consumer-properties:
+            auto.offset.reset: earliest
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  
