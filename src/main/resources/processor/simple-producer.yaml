@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    function:
+      definition: producer
+    stream:
+      bindings:
+        producer-out-0:
+          destination: order-events # multiple topics can be specified as comma separated values
+      kafka:
+        binder:
+          brokers: localhost:9092
+          producer-properties:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+      poller:
+        fixed-delay: 1000
+  
