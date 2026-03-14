@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    function:
+      definition: digitalConsumer;physicalConsumer
+    stream:
+      bindings:
+        digitalConsumer-in-0:
+          destination: digital-delivery # multiple topics can be specified as comma separated values
+          group: demo-group
+        physicalConsumer-in-0:
+          destination: physical-delivery 
+          group: demo-group
+      kafka:
+        binder:
+          brokers: localhost:9092
+          consumer-properties:
+            auto.offset.reset: earliest
+  
