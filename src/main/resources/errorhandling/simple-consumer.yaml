@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    function:
+      definition: consumer
+    stream:
+      bindings:
+        consumer-in-0:
+          destination: demo-topic # multiple topics can be specified as comma separated values
+          group: demo-group
+          consumer:
+            max-attempts: 3
+            back-off-initial-interval: 2000
+            back-off-multiplier: 2
+            default-retryable: false
+            retryable-exceptions:
+               com.kafka.kafka_reactor_playground.errorhandling.exception.InputValidException: false # this values override the default-retryable: false
+               com.kafka.kafka_reactor_playground.errorhandling.exception.ServiceNotAvailableException: true # this values has more priority than default-retryable: false
+          
+      kafka:
+        binder:
+          brokers: localhost:9092
+          consumer-properties:
+            auto.offset.reset: earliest
+        bindings:
+          consumer-in-0:
+            consumer:
+              enable-dlq: true
+              dlq-name: demo-topic-dlq
+        
+           
+  
