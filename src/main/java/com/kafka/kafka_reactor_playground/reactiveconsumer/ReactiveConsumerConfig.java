@@ -1,6 +1,5 @@
 package com.kafka.kafka_reactor_playground.reactiveconsumer;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Logger;
 

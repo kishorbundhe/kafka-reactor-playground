@@ -1,8 +1,12 @@
 package com.kafka.kafka_reactor_playground.concurrent.processor;
 
-import com.kafka.kafka_reactor_playground.concurrent.dto.DigitalDelivery;
-import com.kafka.kafka_reactor_playground.concurrent.dto.Order;
-import com.kafka.kafka_reactor_playground.concurrent.dto.PhysicalDelivery;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Gatherers;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,13 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Gatherers;
-import java.util.stream.Stream;
+import com.kafka.kafka_reactor_playground.concurrent.dto.DigitalDelivery;
+import com.kafka.kafka_reactor_playground.concurrent.dto.Order;
+import com.kafka.kafka_reactor_playground.concurrent.dto.PhysicalDelivery;
 
 @Configuration
 @ConditionalOnProperty(name = "processing-mode", havingValue = "ordered")

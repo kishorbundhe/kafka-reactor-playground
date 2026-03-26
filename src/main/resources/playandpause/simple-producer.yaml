@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    function:
+      definition: producer
+    stream:
+      bindings:
+        producer-out-0:
+          destination: demo-topic
+      kafka:
+        binder:
+          brokers: localhost:9092
+      poller:
+        fixed-delay: 1000
+  
